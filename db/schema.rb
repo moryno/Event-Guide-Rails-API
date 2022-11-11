@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_10_124828) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_11_121357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "products", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "image"
+    t.string "categories"
+    t.integer "price"
+    t.boolean "in_stock"
+    t.integer "events"
+    t.string "trailer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.boolean "is_admin"
@@ -23,6 +36,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_124828) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "score"
+    t.string "reviews"
+    t.bigint "product_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_reviews_on_product_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -36,4 +60,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_124828) do
   end
 
   add_foreign_key "profiles", "users"
+  add_foreign_key "reviews", "products"
+  add_foreign_key "reviews", "users"
 end

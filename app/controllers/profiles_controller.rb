@@ -19,4 +19,5 @@ class ProfilesController < ApplicationController
     def profile_params
         params.permit(:image, :phone, :address )
     end
+    
 end
